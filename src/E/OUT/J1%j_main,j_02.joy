@@ -1,0 +1,23 @@
+inilib  is loaded
+numlib  is loaded
+run time error: valid file name needed for include
+mthlib  is loaded
+
+5
+25
+[1 2 3 4 5 6 7]
+[1 4 9 16]
+[1 4 9 16]
+[1 4 9 16]
+120
+
+10.0037
+1
+["j_02.joy"]
+
+[1]
+[1 -1]
+-40
+["Monday" "Tuesday" "Wednesday" "Thursday" "Friday" "Saturday" "Sunday"]
+55
+

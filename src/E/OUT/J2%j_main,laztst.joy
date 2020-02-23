@@ -1,0 +1,286 @@
+usrlib  is loaded
+inilib  is loaded
+agglib  is loaded
+
+Testing lazy lists in the library lazlib.joy
+lazlib  is loaded
+numlib  is loaded
+	 
+		(* Some lazy lists defined in the library	*) 
+	 
+	Naturals. 
+[0 [1 From]]
+	Evens. 
+[0 [2 [2 +] From-by]]
+	Powers-of-2. 
+[1 [2 [2 *] From-by]]
+	 
+		(* Rest and Drop				*) 
+	 
+	Naturals. 
+[0 [1 From]]
+	Naturals Rest. 
+[1 [2 From]]
+	Naturals Rest Rest. 
+[2 [3 From]]
+	Naturals 2 Drop. 
+[2 [3 From]]
+	Naturals 3 Drop. 
+[3 [4 From]]
+	 
+	Ones. 
+[1 [1 [] From-by]]
+	Ones  Rest. 
+[1 [1 [] From-by]]
+	Ones  10 Drop. 
+[1 [1 [] From-by]]
+	 
+		(* First, Second, Third, N-th, Take		*) 
+	 
+	Evens First. 
+0
+	Evens Second. 
+2
+	Evens Third. 
+4
+	Evens 3 N-th. 
+4
+	Evens 4 N-th. 
+6
+	Evens 10 Take. 
+[0 2 4 6 8 10 12 14 16 18]
+	Powers-of-2   5 N-th. 
+16
+	Powers-of-2  10 N-th. 
+512
+	Powers-of-2  20 N-th. 
+524288
+	Powers-of-2  20 Drop. 
+[1048576 [2097152 [2 *] From-by]]
+	Powers-of-2  21 N-th. 
+1048576
+	Powers-of-2  10 Take. 
+[1 2 4 8 16 32 64 128 256 512]
+	Powers-of-2  5 Drop  5 Take. 
+[32 64 128 256 512]
+	Ones  5 Take. 
+[1 1 1 1 1]
+	Ones  5 Drop  5 Take. 
+[1 1 1 1 1]
+	 
+		(* user constructed infinite lazy lists		*) 
+	 
+	1 [1.1 *] From-by. 
+[1 [1.1 [1.1 *] From-by]]
+	1 [1.1 *] From-by  Rest. 
+[1.1 [1.21 [1.1 *] From-by]]
+	1 [1.1 *] From-by  Third. 
+1.21
+	1 [1.1 *] From-by  10 Drop. 
+[2.59374 [2.85312 [1.1 *] From-by]]
+	1 [1.1 *] From-by  10 N-th. 
+2.35795
+	1 [1.1 *] From-by  10 Take. 
+[1 1.1 1.21 1.331 1.4641 1.61051 1.77156 1.94872 2.14359 2.35795]
+	 
+	true [not] From-by. 
+[true [false [not] From-by]]
+	true [not] From-by   Third. 
+true
+	true [not] From-by   3 Drop. 
+[false [true [not] From-by]]
+	true [not] From-by  10 Take. 
+[true false true false true false true false true false]
+	 
+	"" ['a swons] From-by  7 Take. 
+["" "a" "aa" "aaa" "aaaa" "aaaaa" "aaaaaa"]
+	[] [[]  cons] From-by  7 Take. 
+[[] [[]] [[[]]] [[[[]]]] [[[[[]]]]] [[[[[[]]]]]] [[[[[[[]]]]]]]]
+	 
+		(* user constructed finite lazy lists		*) 
+	 
+	'0 '9 From-to .			(* digits 	*) 
+['0 ['1 '9 From-to]]
+	'0 '9  From-to  Third. 
+'2
+	'0 '9  From-to   9 Drop. 
+['9 [': '9 From-to]]
+	'0 '9  From-to   9 Drop Null. 
+false
+	'0 '9  From-to  10 Drop. 
+[]
+	'0 '9  From-to  10 Drop Null. 
+gc - 53 nodes inspected, 32 nodes copied, clock: 
+true
+	'0 '9  From-to   5 Take. 
+['0 '1 '2 '3 '4]
+	'0 '9  From-to  10 Take. 
+['0 '1 '2 '3 '4 '5 '6 '7 '8 '9]
+	 
+	10 50 [3 +] From-to-by. 
+[10 [13 50 [3 +] From-to-by]]
+	10 50 [3 +] From-to-by  Third. 
+16
+		(* Map and Filter				*) 
+	 
+	Naturals  [dup *] Map    10 Take. 
+[0 1 4 9 16 25 36 49 64 81]
+	Naturals  [prime] Filter 10 Take. 
+[0 1 2 3 5 7 11 13 17 19]
+	 
+	Naturals  [fib] Map  [3 rem null] Filter  10 Take. 
+gc - 154 nodes inspected, 88 nodes copied, clock: 
+[0 3 21 144 987 6765 46368 317811 2178309 14930352]
+	Naturals  [prime] Filter  [dup *] Map  10 Take. 
+gc - 131 nodes inspected, 77 nodes copied, clock: 
+[0 1 4 9 25 49 121 169 289 361]
+	 
+	 
+	1000001 From.                       (*     naturals > 1 Million	*) 
+[1000001 [1000002 From]]
+	1000001 From [prime] Filter.        (*       primes > 1 Million  *) 
+gc - 79 nodes inspected, 43 nodes copied, clock: 
+gc - 81 nodes inspected, 45 nodes copied, clock: 
+[1000003 [[1000004 [1000005 From]] [prime] Filter]]
+	1000001 From [prime] Filter Third.  (* third prime  > 1 Million	*) 
+gc - 75 nodes inspected, 41 nodes copied, clock: 
+gc - 80 nodes inspected, 43 nodes copied, clock: 
+gc - 91 nodes inspected, 49 nodes copied, clock: 
+gc - 93 nodes inspected, 51 nodes copied, clock: 
+gc - 92 nodes inspected, 50 nodes copied, clock: 
+gc - 89 nodes inspected, 48 nodes copied, clock: 
+gc - 92 nodes inspected, 50 nodes copied, clock: 
+1000037
+	1000001 From [prime] Filter 50 Take.(* fifty primes > 1 Million	*) 
+gc - 79 nodes inspected, 43 nodes copied, clock: 
+gc - 82 nodes inspected, 45 nodes copied, clock: 
+gc - 116 nodes inspected, 64 nodes copied, clock: 
+gc - 108 nodes inspected, 59 nodes copied, clock: 
+gc - 112 nodes inspected, 61 nodes copied, clock: 
+gc - 123 nodes inspected, 69 nodes copied, clock: 
+gc - 132 nodes inspected, 75 nodes copied, clock: 
+gc - 131 nodes inspected, 74 nodes copied, clock: 
+gc - 132 nodes inspected, 75 nodes copied, clock: 
+gc - 131 nodes inspected, 75 nodes copied, clock: 
+gc - 124 nodes inspected, 71 nodes copied, clock: 
+gc - 131 nodes inspected, 74 nodes copied, clock: 
+gc - 132 nodes inspected, 75 nodes copied, clock: 
+gc - 133 nodes inspected, 76 nodes copied, clock: 
+gc - 129 nodes inspected, 75 nodes copied, clock: 
+gc - 129 nodes inspected, 74 nodes copied, clock: 
+gc - 134 nodes inspected, 77 nodes copied, clock: 
+gc - 130 nodes inspected, 75 nodes copied, clock: 
+gc - 135 nodes inspected, 78 nodes copied, clock: 
+gc - 138 nodes inspected, 81 nodes copied, clock: 
+gc - 139 nodes inspected, 82 nodes copied, clock: 
+gc - 138 nodes inspected, 81 nodes copied, clock: 
+gc - 138 nodes inspected, 81 nodes copied, clock: 
+gc - 138 nodes inspected, 81 nodes copied, clock: 
+gc - 140 nodes inspected, 83 nodes copied, clock: 
+gc - 135 nodes inspected, 79 nodes copied, clock: 
+gc - 138 nodes inspected, 81 nodes copied, clock: 
+gc - 141 nodes inspected, 84 nodes copied, clock: 
+gc - 134 nodes inspected, 79 nodes copied, clock: 
+gc - 138 nodes inspected, 81 nodes copied, clock: 
+gc - 139 nodes inspected, 82 nodes copied, clock: 
+gc - 137 nodes inspected, 81 nodes copied, clock: 
+gc - 134 nodes inspected, 80 nodes copied, clock: 
+gc - 135 nodes inspected, 81 nodes copied, clock: 
+gc - 143 nodes inspected, 86 nodes copied, clock: 
+gc - 135 nodes inspected, 81 nodes copied, clock: 
+gc - 144 nodes inspected, 87 nodes copied, clock: 
+gc - 136 nodes inspected, 82 nodes copied, clock: 
+gc - 138 nodes inspected, 84 nodes copied, clock: 
+gc - 144 nodes inspected, 88 nodes copied, clock: 
+gc - 146 nodes inspected, 89 nodes copied, clock: 
+gc - 144 nodes inspected, 87 nodes copied, clock: 
+gc - 135 nodes inspected, 83 nodes copied, clock: 
+gc - 145 nodes inspected, 89 nodes copied, clock: 
+gc - 140 nodes inspected, 86 nodes copied, clock: 
+gc - 148 nodes inspected, 91 nodes copied, clock: 
+gc - 147 nodes inspected, 91 nodes copied, clock: 
+gc - 141 nodes inspected, 87 nodes copied, clock: 
+gc - 150 nodes inspected, 93 nodes copied, clock: 
+gc - 142 nodes inspected, 88 nodes copied, clock: 
+gc - 145 nodes inspected, 91 nodes copied, clock: 
+gc - 150 nodes inspected, 93 nodes copied, clock: 
+gc - 145 nodes inspected, 90 nodes copied, clock: 
+gc - 150 nodes inspected, 93 nodes copied, clock: 
+gc - 150 nodes inspected, 93 nodes copied, clock: 
+gc - 143 nodes inspected, 89 nodes copied, clock: 
+gc - 153 nodes inspected, 96 nodes copied, clock: 
+gc - 147 nodes inspected, 93 nodes copied, clock: 
+gc - 151 nodes inspected, 94 nodes copied, clock: 
+gc - 148 nodes inspected, 93 nodes copied, clock: 
+gc - 153 nodes inspected, 96 nodes copied, clock: 
+gc - 152 nodes inspected, 96 nodes copied, clock: 
+gc - 147 nodes inspected, 93 nodes copied, clock: 
+gc - 150 nodes inspected, 95 nodes copied, clock: 
+gc - 155 nodes inspected, 98 nodes copied, clock: 
+gc - 153 nodes inspected, 97 nodes copied, clock: 
+gc - 151 nodes inspected, 97 nodes copied, clock: 
+gc - 149 nodes inspected, 95 nodes copied, clock: 
+gc - 150 nodes inspected, 96 nodes copied, clock: 
+gc - 156 nodes inspected, 100 nodes copied, clock: 
+gc - 159 nodes inspected, 102 nodes copied, clock: 
+gc - 154 nodes inspected, 98 nodes copied, clock: 
+gc - 156 nodes inspected, 99 nodes copied, clock: 
+gc - 156 nodes inspected, 100 nodes copied, clock: 
+gc - 155 nodes inspected, 99 nodes copied, clock: 
+gc - 155 nodes inspected, 99 nodes copied, clock: 
+gc - 152 nodes inspected, 98 nodes copied, clock: 
+gc - 153 nodes inspected, 99 nodes copied, clock: 
+gc - 161 nodes inspected, 104 nodes copied, clock: 
+gc - 153 nodes inspected, 99 nodes copied, clock: 
+gc - 162 nodes inspected, 105 nodes copied, clock: 
+gc - 154 nodes inspected, 100 nodes copied, clock: 
+gc - 156 nodes inspected, 102 nodes copied, clock: 
+gc - 162 nodes inspected, 106 nodes copied, clock: 
+gc - 156 nodes inspected, 102 nodes copied, clock: 
+gc - 162 nodes inspected, 106 nodes copied, clock: 
+gc - 162 nodes inspected, 105 nodes copied, clock: 
+gc - 159 nodes inspected, 105 nodes copied, clock: 
+gc - 167 nodes inspected, 110 nodes copied, clock: 
+gc - 161 nodes inspected, 105 nodes copied, clock: 
+gc - 165 nodes inspected, 108 nodes copied, clock: 
+gc - 166 nodes inspected, 109 nodes copied, clock: 
+gc - 160 nodes inspected, 105 nodes copied, clock: 
+gc - 164 nodes inspected, 108 nodes copied, clock: 
+gc - 159 nodes inspected, 105 nodes copied, clock: 
+gc - 160 nodes inspected, 106 nodes copied, clock: 
+gc - 168 nodes inspected, 111 nodes copied, clock: 
+gc - 161 nodes inspected, 107 nodes copied, clock: 
+gc - 165 nodes inspected, 109 nodes copied, clock: 
+gc - 166 nodes inspected, 109 nodes copied, clock: 
+gc - 168 nodes inspected, 111 nodes copied, clock: 
+gc - 171 nodes inspected, 114 nodes copied, clock: 
+gc - 165 nodes inspected, 109 nodes copied, clock: 
+gc - 168 nodes inspected, 111 nodes copied, clock: 
+gc - 171 nodes inspected, 114 nodes copied, clock: 
+gc - 165 nodes inspected, 111 nodes copied, clock: 
+gc - 169 nodes inspected, 113 nodes copied, clock: 
+gc - 173 nodes inspected, 116 nodes copied, clock: 
+gc - 170 nodes inspected, 114 nodes copied, clock: 
+gc - 172 nodes inspected, 115 nodes copied, clock: 
+gc - 171 nodes inspected, 114 nodes copied, clock: 
+gc - 171 nodes inspected, 114 nodes copied, clock: 
+gc - 170 nodes inspected, 114 nodes copied, clock: 
+gc - 172 nodes inspected, 116 nodes copied, clock: 
+gc - 168 nodes inspected, 114 nodes copied, clock: 
+gc - 169 nodes inspected, 114 nodes copied, clock: 
+gc - 174 nodes inspected, 117 nodes copied, clock: 
+gc - 170 nodes inspected, 116 nodes copied, clock: 
+gc - 167 nodes inspected, 113 nodes copied, clock: 
+gc - 168 nodes inspected, 114 nodes copied, clock: 
+gc - 178 nodes inspected, 121 nodes copied, clock: 
+gc - 173 nodes inspected, 117 nodes copied, clock: 
+gc - 179 nodes inspected, 122 nodes copied, clock: 
+gc - 172 nodes inspected, 117 nodes copied, clock: 
+gc - 170 nodes inspected, 116 nodes copied, clock: 
+gc - 176 nodes inspected, 119 nodes copied, clock: 
+gc - 172 nodes inspected, 117 nodes copied, clock: 
+gc - 173 nodes inspected, 118 nodes copied, clock: 
+gc - 171 nodes inspected, 117 nodes copied, clock: 
+[1000003 1000033 1000037 1000039 1000081 1000099 1000117 1000121 1000133 1000151 1000159 1000171 1000183 1000187 1000193 1000199 1000211 1000213 1000231 1000249 1000253 1000273 1000289 1000291 1000303 1000313 1000333 1000357 1000367 1000381 1000393 1000397 1000403 1000409 1000423 1000427 1000429 1000453 1000457 1000507 1000537 1000541 1000547 1000577 1000579 1000589 1000609 1000619 1000621 1000639]
+	 
+	(* END:  laztst.joy *) 

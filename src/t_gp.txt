@@ -1,0 +1,86 @@
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+
+SS: The "next step" of Genetic Algorithms is Genetic Programming. Instead to 
+evolve the input of a program you directy evolve the program itself! This is 
+a little genetic programming framework for Tcl, based on a stack based virtual 
+machine where every program is valid. I had no time to hack more on this, so 
+it's probably better to just post it as a starting point for others interested 
+in this subject.
+
+Currently there is an "experiment" already configured that search the best 
+function to square a number. It will reach "dup *" after some iteration. 
+Please if you have specific questions about the code write them at the bottom 
+of this page.
+
+Example output:
+
+ BEST: 'peek' with fitness 41
+ BEST: 'peek' with fitness 41
+ BEST: 'peek' with fitness 41
+ BEST: 'peek' with fitness 41
+ BEST: 'peek' with fitness 41
+ BEST: '{const 9}' with fitness 37
+ BEST: '{const 9}' with fitness 37
+ BEST: '{const 9}' with fitness 37
+ BEST: '{const 9}' with fitness 37
+ BEST: 'mod dup *' with fitness 3
+ BEST: 'mod dup *' with fitness 3
+ BEST: 'mod dup *' with fitness 3
+ BEST: 'dup *' with fitness 2
+
+#-------------------------------------------------------------------------------
+#This is the code:
+
+# Genetic programming in Tcl, using a stack based approach.
+# Copyright (C) 2004 Salvatore Sanfilippo <antirez@invece.org>
+# This code is released under the BSD license.
+
+# определим простую стековую виртуальную машину (ВМ) - она очень проста, 
+# в ней нет программ дающих ошибку и каждая программа составленная из верных 
+# слов - тоже верна; 
+
+...
+...
+...
+#-------------------------------------------------------------------------------
+
+See also Brute force meets Goedel
+
+#-------------------------------------------------------------------------------
+
+Harm Olthof: This is not what is generally considered with the phrase Genetic 
+Programming (GP) In GP you have a tree: each node is a function or a terminal 
+(constant) The parameters of the function are the branches of the subtrees, 
+which is a function or a terminal. You start with the root and work your way 
+through the branches, resulting in one nested call to the main function in the 
+root. Take a population of trees and in the evolutionary cycle exchange 
+subbranches between the trees. Trees with higher fitness have higher change to 
+exchange their subbranches with other trees. see [1]. This is not exacty the 
+sameas Genetic Algorithms: see eg. Una-May O'Reilly thesis. ([2])
+
+#-------------------------------------------------------------------------------
+
+Note that the tree is just an implementation detail. To use the tree or the 
+stack is the same, and actually there is quite a lot of literature about 
+stack-based GP. See for example [3]. Both with the tree or the stack-based 
+approach programs are mixed together, and resulting programs are always valid. 
+With the stack-based approach GP is more directly related to GA because the 
+program looks a lot like random "data".
+
+#-------------------------------------------------------------------------------
+
+AM (6 april 2005) Some musings:
+
+* How to randomly select floating-point numbers - the problem is that very 
+  small and very large values may be necessary - you need to come up with a 
+  decent distribution...
+* Converting a stack-based program into a nice little mathematical formula 
+  may not be trivial
+* A nice little exercise: let the script come up with a solution for 
+  squaring a number without *
+* I wonder what happens if the cost (fitness is not very intuitive a word here)
+  does not depend on the size ...
+
+#-------------------------------------------------------------------------------

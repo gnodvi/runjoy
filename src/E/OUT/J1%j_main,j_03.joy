@@ -1,0 +1,23 @@
+inilib  is loaded
+numlib  is loaded
+run time error: valid file name needed for include
+mthlib  is loaded
+run time error: valid file name needed for include
+seqlib  is loaded
+
+[ 5 
+  6 
+  0 
+  1 ]
+
+[ 0 
+  1 
+  5 
+  6 ]
+
+[ [] 
+  [5] 
+  [5 6] 
+  [5 6 0] 
+  [5 6 0 1] ]
+
